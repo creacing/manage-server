@@ -18,6 +18,20 @@ module.exports = appInfo => {
   // add your middleware config here
   config.middleware = [];
 
+  config.cors = {
+    origin: '*',
+    allowMethods: 'GET,POST',
+  };
+  // config.security = {
+  //   csrf: {
+  //     ignore: ctx => {
+  //       if(ctx.request.url === `/${config.adminPath}/pr`){
+
+  //       }
+  //     }
+  //   }
+  // }
+
   // add your user config here
   const userConfig = {
     // myAppName: 'egg',
