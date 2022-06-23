@@ -30,3 +30,10 @@ module.exports = PostsService;
 //   date: 'demo',
 //   content: 'demo',
 // };
+
+// sql语句
+// show databases;
+// use test;
+// show tables;
+// describe Posts
+// create table Posts (id int primary key auto_increment, title varchar(256), description varchar(256), tags varchar(256),  date varchar(256),  content varchar(256));
