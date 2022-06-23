@@ -22,15 +22,23 @@ module.exports = appInfo => {
     origin: '*',
     allowMethods: 'GET,POST',
   };
-  // config.security = {
-  //   csrf: {
-  //     ignore: ctx => {
-  //       if(ctx.request.url === `/${config.adminPath}/pr`){
+  // 跨域安全认证
+  config.security = {
+    csrf: {
+      enable: false,
+      // ignore: ctx => {
+      //   if(ctx.request.url === `/${config.adminPath}/pr`){
 
-  //       }
-  //     }
-  //   }
-  // }
+      //   }
+      // }
+    },
+  };
+  config.mongoose = {
+    url: 'mongodb://127.0.0.1:27017/qydxyx',
+    options: {
+      poolSize: 40,
+    },
+  };
 
   // add your user config here
   const userConfig = {
