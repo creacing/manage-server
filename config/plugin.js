@@ -1,5 +1,5 @@
 'use strict';
-
+// 开启插件
 /** @type Egg.EggPlugin */
 module.exports = {
   // had enabled by egg
@@ -15,5 +15,9 @@ module.exports = {
   mongoose: {
     enable: true,
     package: 'egg-mongoose',
+  },
+  mysql: {
+    enable: true,
+    package: 'egg-mysql',
   },
 };
