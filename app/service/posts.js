@@ -12,13 +12,21 @@ class PostsService extends Service {
   }
 
   async setPost(post) {
+    const isExist = await this.app.mysql.get('Posts', { title: post.title });
+
+    if (isExist) {
+      return 'exist';
+    }
     // mysql
     const res = await this.app.mysql.insert(
       'Posts', post
     );
     // mongo
     // this.ctx.model.Posts.create(post);
-    return res;
+    if (res.insertId) {
+      return 'success';
+    }
+    return 'failed';
   }
 }
 module.exports = PostsService;
