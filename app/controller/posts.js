@@ -4,7 +4,8 @@ const Controller = require('egg').Controller;
 
 class PostsController extends Controller {
   async getPosts() {
-    const _posts = await this.service.posts.getPosts();
+    const pageInfo = this.ctx.request.query;
+    const _posts = await this.service.posts.getPosts(pageInfo);
     this.ctx.body = _posts;
   }
   async setPost() {

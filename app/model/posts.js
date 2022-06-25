@@ -1,6 +1,7 @@
+'use strict';
 module.exports = app => {
-  const mongoose = app.mongoose
-  const Schema = mongoose.Schema
+  const mongoose = app.mongoose;
+  const Schema = mongoose.Schema;
   const PostsSchema = new Schema({
     title: {
       type: String,
@@ -9,7 +10,7 @@ module.exports = app => {
       type: String,
     },
     tags: {
-      type: Array
+      type: Array,
     },
     date: {
       type: String,
@@ -17,7 +18,7 @@ module.exports = app => {
     content: {
       type: String,
     },
-  })
+  });
 
-  return mongoose.model('Posts',PostsSchema)
-}
+  return mongoose.model('Posts', PostsSchema);
+};
