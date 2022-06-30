@@ -2,8 +2,13 @@
 'use strict';
 module.exports = app => {
   return async (ctx, next) => {
+    console.log('222222');
+
     ctx.socket.emit('res', 'packet received!');
+    //接收id
     console.log('packet',ctx.packet);
     await next();
+    console.log('555555');
+
   };
 };

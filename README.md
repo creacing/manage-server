@@ -1,18 +1,13 @@
-# bg3-s
-
-
+# tool-server
 
 ## QuickStart
-
-<!-- add docs here for user -->
-
 see [egg docs][egg] for more detail.
 
 ### Development
 
 ```bash
-$ npm i
-$ npm run dev
+$ yarn install
+$ yarn dev
 $ open http://localhost:7001/
 ```
 
@@ -31,3 +26,9 @@ $ npm stop
 
 
 [egg]: https://eggjs.org
+
+### site config
+#### mysql
+#### mongodb
+#### redis
+#### JWT -> JSON WEB TOKEN
