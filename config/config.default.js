@@ -78,8 +78,9 @@ module.exports = (appInfo) => {
         },
     }),
     (config.jwt = {
-        secret: "jwt",
-        expiresIn: "1h",
+        secret: "creazing", // 自定义token加密条件字符串
+        // expiresIn: "1h",
+        expiresIn: "",
     });
 
     // add your user config here

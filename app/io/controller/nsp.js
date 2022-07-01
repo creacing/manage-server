@@ -2,22 +2,30 @@
 const { Controller } = require("egg");
 class NspController extends Controller {
     async index() {
-        console.log("333333");
-
+        //业务逻辑
         const { ctx, app } = this;
-        const message = ctx.args[0];
+        //获取用户信息
+        //检查token 是否正确
+        const token = ctx.socket.handshake.query.usekey
+        const userInfo =  app.jwt.verify(token)
+        //检查用户名密码
+        const {username,password} = userInfo
+        const queryPassword = await app.redis.hget('usersInfo',username)
+        if(queryPassword === password){
+          //用户验证成功 //获取用户发送的数据
+          const chatInfo = ctx.args[0];
+          //保存用户发送的数据
+          // await app.redis.lpush('chatInfos',JSON.stringify({...chatInfo,username}))
+          const namespace = app.io.of('/');
+          // 广播
+          namespace.emit('data', {...chatInfo,username});
+          // const sockets = Object.keys(namespace.sockets)
+          // for(const socket of sockets){
+          //   namespace.sockets[socket].emit('res', {...chatInfo,username});
+          // }
 
-        // const socketId = ctx.socket.id
-        // const socketIds = await app.redis.lrange('socketIds',0,-1)
-        // if(!socketIds.includes(socketId)){
-        //   console.log('socketIds is',socketId);
-        //   await app.redis.lpush('socketIds',socketId)
-        // }
-        // //向指定id 发送数据
-        // //app.io.sockets.connected[id].emit('res', 'send From app');
-        // // console.log(app.redis.__proto__);
-        // await ctx.socket.emit('res', `Hi! I've got your message: ${message}`);
-        console.log("444444");
+          await ctx.socket.emit('res', `message has already send`);
+        }
     }
 }
 module.exports = NspController;

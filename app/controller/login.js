@@ -8,16 +8,44 @@ class LoginController extends Controller {
         const { username, password } = userinfo;
         const hasUser = await this.app.redis.hget("usersInfo", username);
         if (!hasUser) {
-            const { username, password } = userinfo;
-            await this.app.redis.hset("usersInfo", username, password);
+          this.ctx.body = {
+            code: 20000,
+            msg: 'cant find this account please register first'
+          }
+          return
         }
-        console.log("hasUser", hasUser);
-        this.ctx.body = "_posts";
+        // 生成token
+        const token = this.ctx.app.jwt.sign({
+          ...this.ctx.request.body
+        },this.app.config.jwt.secret,{expiresIn:this.app.config.jwt.expiresIn})
+        this.ctx.body = {
+          code: 20000,
+          token,
+          msg: 'suc'
+        };
     }
     async registerUser() {
         const userinfo = this.ctx.request.body;
-
-        this.ctx.body = "register back";
+        const { username, password } = userinfo;
+        const hasUser = await this.app.redis.hget("usersInfo", username);
+        if (hasUser) {
+          this.ctx.body =  {
+            code: 20000,
+            msg: 'already has account please go to login'
+          }
+          return
+        }
+        await this.app.redis.hset("usersInfo", username, password);
+        this.ctx.body = {
+          code: 20000,
+          msg: 'suc'
+        }
+    }
+    async loginOut(){
+      this.ctx.body = {
+        code: 20000,
+        msg: 'suc'
+      }
     }
 }
 

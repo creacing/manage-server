@@ -7,8 +7,11 @@ module.exports = app => {
   const { router, controller, io } = app;
   //http router
   router.post('/login', controller.login.getUserInfo);
+  router.post('/register', controller.login.registerUser);
+
   router.get('/get_posts', controller.posts.getPosts);
   router.post('/set_post', controller.posts.setPost);
+
   // socket router ------------ socket.io
 
   io.of('/').route('index',io.controller.nsp.index)
