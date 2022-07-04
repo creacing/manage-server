@@ -1,18 +1,13 @@
 "use strict";
 const { Controller } = require("egg");
 class NspController extends Controller {
-    async index() {
-        //业务逻辑
-        const { ctx, app } = this;
-        //获取用户信息
-        //检查token 是否正确
-        const token = ctx.socket.handshake.query.usekey;
-        const userInfo = app.jwt.verify(token);
+    async chekUser(userInfo){
+      const { ctx, app } = this;
         //检查用户名密码
         const { username, password } = userInfo;
         const queryPassword = await app.redis.hget("usersInfo", username);
         if (queryPassword === password) {
-            //用户验证成功 //获取用户发送的数据
+            //用户验证成功,获取用户发送的数据
             const chatInfo = ctx.args[0];
             //保存用户发送的数据
             // await app.redis.lpush('chatInfos',JSON.stringify({...chatInfo,username}))
@@ -28,6 +23,17 @@ class NspController extends Controller {
             await ctx.socket.emit("res", `message has already send`);
         }
     }
-}
 
-module.exports = NspController;
+    async index() {
+        const { ctx, app } = this;
+        const token = ctx.socket.handshake.query.usekey;
+        app.jwt.verify(token,'creazing', async (err,decoded)=>{
+          if(err){
+            await ctx.socket.emit("res", {token:'expired'});
+          }else{
+            await this.chekUser(decoded)
+          }
+        });
+      
+    }
+}

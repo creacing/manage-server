@@ -5,7 +5,7 @@ const Controller = require("egg").Controller;
 class LoginController extends Controller {
     async getUserInfo() {
         const userinfo = this.ctx.request.body;
-        const { username, password } = userinfo;
+        const { username } = userinfo;
         const hasUser = await this.app.redis.hget("usersInfo", username);
         if (!hasUser) {
           this.ctx.body = {
