@@ -37,3 +37,4 @@ class NspController extends Controller {
       
     }
 }
+module.exports = NspController;
