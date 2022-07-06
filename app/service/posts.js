@@ -3,74 +3,90 @@ const Service = require("egg").Service;
 class PostsService extends Service {
     async getPosts(pageInfo) {
         let _posts = "";
-        // 查询文章
-        // if (pageInfo.articleTitle) {
-        //   const articleTitle = pageInfo.articleTitle;
-        //   _posts = await this.app.mysql.query(
-        //     `SELECT * FROM Posts where title = '${articleTitle}' ;`
-        //   );
-        //   return {
-        //     code: '20000',
-        //     msg: 'success query article',
-        //     data: _posts,
-        //   };
-        // }
+        // 查询全部title
+        if(Object.keys(pageInfo).length === 0){
+          const titles = []
+          _posts = await this.app.mysql.query(
+            `SELECT * FROM Posts;`
+          );
+          for(const article of _posts){
+            titles.push(article.title)
+          }
+          return {
+            code: '20000',
+            msg: 'success query article',
+            data: titles,
+          };
+        }
+        
+        //具名查询
+        if (pageInfo.articleTitle) {
+          const articleTitle = pageInfo.articleTitle;
+          _posts = await this.app.mysql.query(
+            `SELECT * FROM Posts where title = '${articleTitle}' ;`
+          );
+          return {
+            code: '20000',
+            msg: 'success query article',
+            data: _posts,
+          };
+        }
+        //模糊查询
+        if (pageInfo.keywords && pageInfo.keywords !== "") {
+            const keywords = pageInfo.keywords;
+            _posts = await this.app.mysql.query(
+                `SELECT * FROM Posts where title REGEXP '${keywords}' ;`
+            );
 
-        // if (pageInfo.keywords && pageInfo.keywords !== "") {
-        //     const keywords = pageInfo.keywords;
-        //     _posts = await this.app.mysql.query(
-        //         `SELECT * FROM Posts where title REGEXP '${keywords}' ;`
-        //     );
+            _posts = _posts.map((post) => {
+                return post.title;
+            });
 
-        //     _posts = _posts.map((post) => {
-        //         return post.title;
-        //     });
+            return {
+                code: "20000",
+                msg: "success query search",
+                data: _posts,
+            };
+        }
+        //分页查询
+        const { currentPage, pageValue } = pageInfo;
+        // await app.mysql.query(sql, values); // 单实例可以直接通过 app.mysql 访问
+        _posts = await this.app.mysql.query(
+            `select * from Posts limit ${currentPage * pageValue},${pageValue}`
+        );
+        // mongo
+        // _posts = this.ctx.model.Posts.find({});
 
-        //     return {
-        //         code: "20000",
-        //         msg: "success query search",
-        //         data: _posts,
-        //     };
-        // }
-
-        // const { currentPage, pageValue } = pageInfo;
-        // // await app.mysql.query(sql, values); // 单实例可以直接通过 app.mysql 访问
-        // _posts = await this.app.mysql.query(
-        //     `select * from Posts limit ${currentPage * pageValue},${pageValue}`
-        // );
-        // // mongo
-        // // _posts = this.ctx.model.Posts.find({});
-
-        // return {
-        //     code: "20000",
-        //     msg: "success query page",
-        //     data: _posts,
-        // };
+        return {
+            code: "20000",
+            msg: "success query page",
+            data: _posts,
+        };
     }
 
     async setPost(post) {
         const isExist = await this.app.mysql.get("Posts", { title: post.title });
 
-        // if (isExist) {
-        //     return {
-        //         code: "20001",
-        //         msg: "exist",
-        //     };
-        // }
-        // // mysql
-        // const res = await this.app.mysql.insert("Posts", post);
-        // // mongo
-        // // this.ctx.model.Posts.create(post);
-        // if (res.insertId) {
-        //     return {
-        //         code: "20000",
-        //         msg: "success",
-        //     };
-        // }
-        // return {
-        //     code: "20001",
-        //     msg: "failed",
-        // };
+        if (isExist) {
+            return {
+                code: "20001",
+                msg: "exist",
+            };
+        }
+        // mysql
+        const res = await this.app.mysql.insert("Posts", post);
+        // mongo
+        // this.ctx.model.Posts.create(post);
+        if (res.insertId) {
+            return {
+                code: "20000",
+                msg: "success",
+            };
+        }
+        return {
+            code: "20001",
+            msg: "failed",
+        };
     }
 }
 module.exports = PostsService;
