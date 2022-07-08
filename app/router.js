@@ -7,6 +7,7 @@ module.exports = app => {
   const { router, controller, io } = app;
   //http router
   router.post('/login', controller.login.getUserInfo);
+  router.get('/users', controller.user.getUsersInfo);
   router.post('/register', controller.login.registerUser);
 
   router.get('/get_posts', controller.posts.getPosts);
@@ -15,4 +16,5 @@ module.exports = app => {
   // socket router ------------ socket.io
 
   io.of('/').route('index',io.controller.nsp.index)
+  io.of('/server').route('index',io.controller.serverInfo.index)
 };

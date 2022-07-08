@@ -4,7 +4,7 @@ module.exports = app => {
   return async (ctx, next) => {
     ctx.socket.emit('res', 'packet received!');
     //接收id
-    // console.log('packet',ctx.packet);
+    console.log('packet',ctx.packet);
     await next();
   };
 };

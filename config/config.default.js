@@ -66,6 +66,10 @@ module.exports = (appInfo) => {
                 connectionMiddleware: ["connection"],
                 packetMiddleware: ["packet"],
             },
+            "/server":{
+              connectionMiddleware: ["connection"],
+              packetMiddleware: ["packet"],
+            }
         },
     };
 
