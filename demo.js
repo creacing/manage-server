@@ -1,11 +1,6 @@
-const arr = ['0001120051','0001120051',
-'0001322063','0001322063','0001322063',
-'0001620001','0001620001','0002022107','A160200001'
-,'0002022107']
-// const arr = ['A160200001'
-// ,'0002022107']
-arr.sort((a,b)=>{
-  return a.localeCompare(b)
+function foo() {
+    this.a = 33
 }
-  )
-console.log(arr);
+const a = new foo
+
+console.log(a);
