@@ -36,4 +36,8 @@ module.exports = {
         enable: true,
         package: "egg-jwt",
     },
+    axiosPlus: {
+        enable: true,
+        package: 'egg-axios-plus',
+    }
 };
