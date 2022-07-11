@@ -19,17 +19,17 @@ class ServerInfo {
   }
   //获取空闲内存
   getFreeMem(){
-    return os.freemem()
+    return parseInt(os.freemem()) 
   }
   //获取所有内存
   getTotalMem(){
-    return os.totalmem()
+    return parseInt(os.totalmem())
   }
   //获取系统cpu利用率
   async getCPUUsage() {
     let promise = new Promise((resolve, reject) => {
       os.cpuUsage(function(v){
-        resolve(v)
+        resolve(Number(v.toFixed(2)))
       });
     });
     

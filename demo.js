@@ -1,29 +1,11 @@
-'use strict';
-const a = [ 0 ];
-function defineReactive(obj, key, val) {
-  Object.defineProperty(obj, key, {
-    configurable: true,
-    enumerable: true,
-    get() {
-      console.log('get');
-      return val;
-    },
-    set(newVal) {
-      if (newVal === val) {
-        return;
-      }
-      return val;
-    },
-  });
+const arr = ['0001120051','0001120051',
+'0001322063','0001322063','0001322063',
+'0001620001','0001620001','0002022107','A160200001'
+,'0002022107']
+// const arr = ['A160200001'
+// ,'0002022107']
+arr.sort((a,b)=>{
+  return a.localeCompare(b)
 }
-defineReactive(a, 0, 1);
-
-console.log(a[0]);
-
-a[0] = 1;
-
-console.log(a[0]);
-
-a[0] = 2;
-
-a[0] = 3;
+  )
+console.log(arr);
