@@ -4,18 +4,18 @@
  * @param {Egg.Application} app - egg application
  */
 module.exports = app => {
-  const { router, controller, io } = app;
-  //http router
-  router.post('/login', controller.login.getUserInfo);
-  router.get('/users', controller.user.getUsersInfo);
-  router.post('/register', controller.login.registerUser);
+    const { router, controller, io } = app;
+    //http router
+    router.post('/login', controller.login.getUserInfo);
+    router.get('/users', controller.user.getUsersInfo);
+    router.post('/register', controller.login.registerUser);
 
-  router.get('/get_posts', controller.posts.getPosts);
-  router.post('/set_post', controller.posts.setPost);
-  router.get('/stocks', controller.stocks.getStocks);
+    router.get('/get_posts', controller.posts.getPosts);
+    router.post('/set_post', controller.posts.setPost);
+    router.get('/stocks', controller.stocks.getStocks);
 
-  // socket router ------------ socket.io
+    // socket router ------------ socket.io
 
-  io.of('/').route('index',io.controller.nsp.index)
-  io.of('/server').route('index',io.controller.serverInfo.index)
+    io.of('/').route('index', io.controller.chat.index)
+    io.of('/server').route('index', io.controller.serverInfo.index)
 };
