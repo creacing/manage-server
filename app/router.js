@@ -12,6 +12,7 @@ module.exports = app => {
 
   router.get('/get_posts', controller.posts.getPosts);
   router.post('/set_post', controller.posts.setPost);
+  router.get('/stocks', controller.stocks.getStocks);
 
   // socket router ------------ socket.io
 
