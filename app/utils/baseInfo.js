@@ -2,7 +2,8 @@
 const CMD = require('node-cmd');
 const os = require('os-utils');
 const diskinfo = require('diskinfo');
-
+//原生模块
+const baseos = require("os")
 class ServerInfo {
     constructor() {
         this.plantForm = this.getPlatform()

@@ -17,8 +17,10 @@
     "egg-redis": "^2.4.0",
     "egg-scripts": "^2.11.0",
     "egg-socket.io": "^4.1.6",
+    "iconv-lite": "^0.6.3",
     "markdown-it": "^13.0.1",
     "node-cmd": "^5.0.0",
+    "node-wifi": "^2.0.16",
     "npm": "^8.13.2",
     "os-utils": "^0.0.14"
   },

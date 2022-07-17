@@ -38,16 +38,12 @@ const getWifiInfo = async() => {
     return wifiInfo
 }
 
-const test = async() => {
-    console.log(await getWifiInfo());
-}
-getWifiInfo()
-    // // Connect to a network
-    // wifi.connect({ ssid: 'ssid', password: 'password' }, () => {
-    //     console.log('Connected');
-    //     // on windows, the callback is called even if the connection failed due to netsh limitations
-    //     // if your software may work on windows, you should use `wifi.getCurrentConnections` to check if the connection succeeded
-    // });
+// // Connect to a network
+// wifi.connect({ ssid: 'ssid', password: 'password' }, () => {
+//     console.log('Connected');
+//     // on windows, the callback is called even if the connection failed due to netsh limitations
+//     // if your software may work on windows, you should use `wifi.getCurrentConnections` to check if the connection succeeded
+// });
 
 // // Disconnect from a network
 // // not available on all os for now
