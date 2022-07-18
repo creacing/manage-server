@@ -1,6 +1,7 @@
 const os = require("os")
 const osInfo = {}
 
+
 //返回操作系统的默认临时文件夹。
 const getTmpdir = () => {
     // console.log(os.tmpdir())
