@@ -2,6 +2,8 @@
 const CMD = require('node-cmd');
 const os = require('os-utils');
 const diskinfo = require('diskinfo');
+const calculateNetRate = require('./calculateNetRate.js')
+
 //原生模块
 const baseos = require("os")
 class ServerInfo {
@@ -102,6 +104,7 @@ class ServerInfo {
         this.sysUptime = this.getSysUptime()
         this.cpuUsage = await this.getCPUUsage()
         this.diskinfo = await this.getAllDiskinfo()
+        this.netInfo = await calculateNetRate()
 
     }
 }

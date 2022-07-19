@@ -3,33 +3,57 @@ const Service = require("egg").Service;
 class PostsService extends Service {
     async getPosts(pageInfo) {
         let _posts = "";
-        // 查询全部title
-        if(Object.keys(pageInfo).length === 0){
-          const titles = []
-          _posts = await this.app.mysql.query(
-            `SELECT * FROM Posts;`
-          );
-          for(const article of _posts){
-            titles.push(article.title)
-          }
-          return {
-            code: '20000',
-            msg: 'success query article',
-            data: titles,
-          };
+        //查询全部文章
+        if (pageInfo.key === 'full') {
+            const categoryDic = {}
+
+            _posts = await this.app.mysql.query(
+                `SELECT * FROM Posts;`
+            );
+            for (const post of _posts) {
+                if (!categoryDic[post.category]) {
+                    categoryDic[post.category] = []
+                }
+                categoryDic[post.category].push(post)
+
+            }
+            return {
+                code: '20000',
+                msg: 'success query all articles',
+                data: categoryDic,
+            };
+            return
         }
-        
+        // 查询全部title
+        if (Object.keys(pageInfo).length === 0) {
+            const titles = {}
+            _posts = await this.app.mysql.query(
+                `SELECT * FROM Posts;`
+            );
+            for (const article of _posts) {
+                if (!titles[article.category]) {
+                    titles[article.category] = []
+                }
+                titles[article.category].push(article.title)
+            }
+            return {
+                code: '20000',
+                msg: 'success query article',
+                data: titles,
+            };
+        }
+
         //具名查询
         if (pageInfo.articleTitle) {
-          const articleTitle = pageInfo.articleTitle;
-          _posts = await this.app.mysql.query(
-            `SELECT * FROM Posts where title = '${articleTitle}' ;`
-          );
-          return {
-            code: '20000',
-            msg: 'success query article',
-            data: _posts,
-          };
+            const articleTitle = pageInfo.articleTitle;
+            _posts = await this.app.mysql.query(
+                `SELECT * FROM Posts where title = '${articleTitle}' ;`
+            );
+            return {
+                code: '20000',
+                msg: 'success query article',
+                data: _posts,
+            };
         }
         //模糊查询
         if (pageInfo.keywords && pageInfo.keywords !== "") {
