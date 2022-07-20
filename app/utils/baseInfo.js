@@ -3,6 +3,7 @@ const CMD = require('node-cmd');
 const os = require('os-utils');
 const diskinfo = require('diskinfo');
 const calculateNetRate = require('./calculateNetRate.js')
+const { execFile, exec } = require('child_process');
 
 //原生模块
 const baseos = require("os")
@@ -15,6 +16,7 @@ class ServerInfo {
         this.sysUptime = ''
         this.currentDisk = ''
         this.diskinfo = {}
+        this.nodeVersion = ''
     }
 
     //获取当前文件路径
@@ -96,6 +98,21 @@ class ServerInfo {
         return os.sysUptime();
     }
 
+    getNodeVersion() {
+        if (this.getPlatform() === 'win32') {
+            return new Promise((resolve, reject) => {
+                this.nodeVersion = exec('node -v', (err, stdout, stderr) => {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        resolve(stdout.replace(/\r\n/, ''));
+                    }
+                })
+            })
+
+        }
+    }
+
     async getServerInfo() {
         this.currentDisk = this.getCurrentFilePath()
         this.cpuUsage = await this.getCPUUsage()
@@ -105,6 +122,7 @@ class ServerInfo {
         this.cpuUsage = await this.getCPUUsage()
         this.diskinfo = await this.getAllDiskinfo()
         this.netInfo = await calculateNetRate()
+        this.nodeVersion = await this.getNodeVersion()
 
     }
 }
