@@ -1,31 +1,12 @@
 "use strict";
 const Service = require("egg").Service;
+const downloadExcel = require('./../utils/downloadExcel.js')
+
 class PostsService extends Service {
-    async getPosts(pageInfo) {
-        let _posts = "";
-        //查询全部文章
-        if (pageInfo.key === 'All') {
-            const categoryDic = {}
-
-            _posts = await this.app.mysql.query(
-                `SELECT * FROM Posts;`
-            );
-            for (const post of _posts) {
-                if (!categoryDic[post.category]) {
-                    categoryDic[post.category] = []
-                }
-                categoryDic[post.category].push(post)
-
-            }
-            return {
-                code: '20000',
-                msg: 'success query all articles',
-                data: categoryDic,
-            };
-            return
-        }
+    async getPosts(req) {
+        let _posts = "";       
         // 查询全部title
-        if (Object.keys(pageInfo).length === 0) {
+        if (Object.keys(req).length === 0) {
             const titles = {}
             _posts = await this.app.mysql.query(
                 `SELECT * FROM Posts;`
@@ -42,10 +23,9 @@ class PostsService extends Service {
                 data: titles,
             };
         }
-
         //具名查询
-        if (pageInfo.articleTitle) {
-            const articleTitle = pageInfo.articleTitle;
+        if (req.articleTitle) {
+            const articleTitle = req.articleTitle;
             _posts = await this.app.mysql.query(
                 `SELECT * FROM Posts where title = '${articleTitle}' ;`
             );
@@ -56,8 +36,8 @@ class PostsService extends Service {
             };
         }
         //模糊查询
-        if (pageInfo.keywords && pageInfo.keywords !== "") {
-            const keywords = pageInfo.keywords;
+        if (req.keywords && req.keywords !== "") {
+            const keywords = req.keywords;
             _posts = await this.app.mysql.query(
                 `SELECT * FROM Posts where title REGEXP '${keywords}' ;`
             );
@@ -73,7 +53,7 @@ class PostsService extends Service {
             };
         }
         //分页查询
-        const { currentPage, pageValue } = pageInfo;
+        const { currentPage, pageValue } = req;
         // await app.mysql.query(sql, values); // 单实例可以直接通过 app.mysql 访问
         _posts = await this.app.mysql.query(
             `select * from Posts limit ${currentPage * pageValue},${pageValue}`
@@ -89,29 +69,39 @@ class PostsService extends Service {
     }
 
     async setPost(post) {
-        const isExist = await this.app.mysql.get("Posts", { title: post.title });
+      const {app,ctx} = this
+      const isExist = await app.mysql.get("Posts", { title: post.title });
 
-        if (isExist) {
-            return {
-                code: "20001",
-                msg: "exist",
-            };
-        }
-        // mysql
-        const res = await this.app.mysql.insert("Posts", post);
-        // mongo
-        // this.ctx.model.Posts.create(post);
-        if (res.insertId) {
-            return {
-                code: "20000",
-                msg: "success",
-            };
-        }
-        return {
-            code: "20001",
-            msg: "failed",
-        };
+      if (isExist) {
+          return {
+              code: "20001",
+              msg: "exist",
+          };
+      }
+      // mysql
+      const insertResponse = await app.mysql.insert("Posts", post);
+      // mongo
+      // ctx.model.Posts.create(post);
+      if (insertResponse.insertId) {
+          return {
+              code: "20000",
+              msg: "success",
+          };
+      }
+      return {
+          code: "20001",
+          msg: "failed",
+      };
     }
+
+    async downloadPosts() {
+      const {app,ctx} = this
+      const posts = await app.mysql.query(`SELECT * FROM Posts;`);
+      const output = downloadExcel('posts.xls',posts)
+      ctx.attachment('posts.xls') //等于 ctx.set('Content-Disposition', "attachment;filename*=UTF-8' '" + 'posts.xlsx');
+      ctx.set('Content-Type','application/vnd.openxmlformats');
+      return output
+  }
 }
 module.exports = PostsService;
 // demo post
@@ -121,6 +111,7 @@ module.exports = PostsService;
 //   tags: 'demo',
 //   date: 'demo',
 //   content: 'demo',
+//   category: 'demo'
 // };
 
 // sql语句

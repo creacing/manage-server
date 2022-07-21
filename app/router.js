@@ -10,6 +10,7 @@ module.exports = app => {
     router.get('/users', controller.user.getUsersInfo);
     router.post('/register', controller.login.registerUser);
 
+    router.get('/download_posts', controller.posts.downloadPosts);
     router.get('/get_posts', controller.posts.getPosts);
     router.post('/set_post', controller.posts.setPost);
     router.get('/stocks', controller.stocks.getStocks);
