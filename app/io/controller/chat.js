@@ -2,7 +2,6 @@
 const { Controller } = require("egg");
 class NspController extends Controller {
     async chekUser(userInfo) {
-        console.log('chat');
         const { ctx, app } = this;
         //检查用户名密码
         const { username, password } = userInfo;

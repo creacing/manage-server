@@ -2,7 +2,8 @@
 const { Controller } = require("egg");
 const serverInfo = require('./../../utils/baseInfo.js')
 class ServerInfoController extends Controller {
-    async index() {
+    async index() {      
+      const { ctx, app } = this;
       setInterval(async()=>{
         const date = new Date()
         const formatDate = `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`
@@ -11,7 +12,6 @@ class ServerInfoController extends Controller {
         serverInfo.date = formatDate
         await ctx.socket.emit("data",JSON.parse(JSON.stringify(serverInfo)));
       },3000)
-      const { ctx, app } = this;
       console.log('serverInfo');
     }
 }

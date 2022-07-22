@@ -1,9 +1,9 @@
 //使用cmd 命令 https://github.com/RIAEvangelist/node-cmd
-const CMD = require('node-cmd');
+// const CMD = require('node-cmd');
 const os = require('os-utils');
 const diskinfo = require('diskinfo');
 const calculateNetRate = require('./calculateNetRate.js')
-const { execFile, exec } = require('child_process');
+const { exec } = require('child_process');
 
 //原生模块
 const baseos = require("os")

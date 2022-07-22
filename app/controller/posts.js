@@ -18,6 +18,16 @@ class PostsController extends Controller {
     const res = await this.service.posts.downloadPosts(req);
     this.ctx.body = res;
   }
+  async uploadPosts(){
+    const req = this.ctx.request.body;
+    const res = await this.service.posts.uploadPosts(req);
+    this.ctx.body = res;
+  }
+  async updatePost(){
+    const req = this.ctx.request.body
+    const res = await this.service.posts.updatePost(req);
+    this.ctx.body = res;
+  }
 }
 
 module.exports = PostsController;

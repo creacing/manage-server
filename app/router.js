@@ -10,9 +10,11 @@ module.exports = app => {
     router.get('/users', controller.user.getUsersInfo);
     router.post('/register', controller.login.registerUser);
 
+    router.post('/upload_posts', controller.posts.uploadPosts);
     router.get('/download_posts', controller.posts.downloadPosts);
     router.get('/get_posts', controller.posts.getPosts);
     router.post('/set_post', controller.posts.setPost);
+    router.post('/update_post', controller.posts.updatePost);
     router.get('/stocks', controller.stocks.getStocks);
 
     // socket router ------------ socket.io

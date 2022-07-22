@@ -5,7 +5,7 @@ const downloadExcel = require('./../utils/downloadExcel.js')
 class PostsService extends Service {
     async getPosts(req) {
         let _posts = "";       
-        // 查询全部title
+        // 查询全部article的title
         if (Object.keys(req).length === 0) {
             const titles = {}
             _posts = await this.app.mysql.query(
@@ -101,7 +101,16 @@ class PostsService extends Service {
       ctx.attachment('posts.xls') //等于 ctx.set('Content-Disposition', "attachment;filename*=UTF-8' '" + 'posts.xlsx');
       ctx.set('Content-Type','application/vnd.openxmlformats');
       return output
-  }
+    }
+
+    async uploadPosts() {
+      const {app,ctx} = this
+
+    }
+    async updatePost(){
+      const {app,ctx} = this
+
+    }
 }
 module.exports = PostsService;
 // demo post

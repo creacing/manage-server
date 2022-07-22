@@ -1,10 +1,10 @@
 const iconv = require('iconv-lite'); // 防止中文乱码
 
 const preventChineseConfused = (data) => {
+  //to binary
   const buffer = Buffer.from(data, 'binary')
-  // console.log(buffer);
+  //to gbk
   const res = iconv.decode(buffer, 'gbk')
-  // console.log(res);
   return res
 }
 
