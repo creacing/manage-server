@@ -2,7 +2,7 @@
 // const CMD = require('node-cmd');
 const os = require('os-utils');
 const diskinfo = require('diskinfo');
-const calculateNetRate = require('./calculateNetRate.js')
+const calculateNetRate = require('./netRate.js')
 const { exec } = require('child_process');
 
 //原生模块

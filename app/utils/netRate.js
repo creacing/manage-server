@@ -3,7 +3,6 @@ let preSend = 0
 const { execFile, exec } = require('child_process');
 const preventChineseConfused = require('./preventChineseConfused.js')
 
-// console.log('preventChineseConfused', preventChineseConfused);
 const calculateNetRate = () => {
     return new Promise((resolve, reject) => {
         exec(`netstat -e`, { encoding: 'binary' }, function(err, stdout, stderr) {
@@ -46,16 +45,3 @@ const calculateNetRate = () => {
 }
 
 module.exports = calculateNetRate
-
-//test
-
-// const test = () => {
-//   setInterval(async () => {
-//     const res = await calculateNetRate()
-//     console.log(res);
-
-//   }, 1000)
-
-// }
-
-// test()
