@@ -16,7 +16,7 @@ module.exports = app => {
     router.post('/set_post', controller.posts.setPost);
     router.post('/update_post', controller.posts.updatePost);
     router.get('/stocks', controller.stocks.getStocks);
-
+    router.get('/comments', controller.comments.getComments)
     // socket router ------------ socket.io
 
     io.of('/').route('index', io.controller.chat.index)
