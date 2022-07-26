@@ -1,7 +1,7 @@
 const Service = require("egg").Service;
 const { exec } = require('child_process');
 const preventChineseConfused = require('./../utils/preventChineseConfused.js')
-class PostsService extends Service {
+class ConsoleService extends Service {
   
   async handleCommend(req){
     const commend = req.commend
@@ -13,12 +13,21 @@ class PostsService extends Service {
             reject(err)
             return
           }
+
+          console.log('----',preventChineseConfused(stdout));
           resolve(stdout)
         })
       })
     }
 
     const res = await getResult(commend)
-    console.log(res);
+    // console.log(res);
+    return {
+      code: '20000',
+      msg: 'success query article',
+      data: res,
+    };
   }
 }
+
+module.exports = ConsoleService;
