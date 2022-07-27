@@ -6,7 +6,10 @@ const preventChineseConfused = require('./preventChineseConfused.js')
 const calculateNetRate = () => {
     return new Promise((resolve, reject) => {
         exec(`netstat -e`, { encoding: 'binary' }, function(err, stdout, stderr) {
-            if (err) reject(err);
+            if (err){
+              reject(err);
+              return
+            } 
 
             const info = preventChineseConfused(stdout)
 

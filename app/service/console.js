@@ -8,14 +8,12 @@ class ConsoleService extends Service {
     const {ctx,app} = this
     const getResult=(commend)=>{
       return new Promise((resolve,reject)=>{
-        exec(commend,(err,stdout,stderr)=>{
+        exec(commend,{ encoding: 'binary' },(err,stdout,stderr)=>{
           if(err){
             reject(err)
             return
           }
-
-          console.log('----',preventChineseConfused(stdout));
-          resolve(stdout)
+          resolve(preventChineseConfused(stdout))
         })
       })
     }
