@@ -5,20 +5,16 @@ class NspController extends Controller {
         const { ctx, app } = this;
         //检查用户名密码
         const { username, password } = userInfo;
-        console.log(username, password);
         const queryPassword = await app.redis.hget("usersInfo", username);
-        console.log('password check', queryPassword === password, queryPassword, password);
         if (queryPassword === password) {
             //用户验证成功,获取用户发送的数据
             const chatInfo = ctx.args[0];
-           const curSocketId = ctx.socket.id
-           
+            //获取当前socketId
+            const curSocketId = ctx.socket.id
             //保存用户发送的数据
-            await app.redis.lpush('chatInfos',JSON.stringify({...chatInfo,username}))
-            
-
+            const saveMessage = await app.redis.lpush('chatInfos',JSON.stringify({...chatInfo,username}))
+            //获取命名空间
             const namespace = app.io.of("/");
-            console.log('current sockets', Object.keys(namespace.sockets));
             // 广播1
             // namespace.emit("data", {...chatInfo, username });
             const sockets = Object.keys(namespace.sockets)
